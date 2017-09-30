@@ -1,4 +1,5 @@
 # Environment Builder
+A flexible framework for automated environment building.
 
 #### tl;dr
 If you don't feel like reading and want to just dive in, copy the contents of the .minimal_example folder to wherever you want your scripts to run, and drop in some files/folders like the examples in the common and example folders. You can also copy the whole project somewhere and run build.sh to see how the system operates. Try running with different environments and command line options, and observe the results.
