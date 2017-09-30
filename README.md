@@ -8,7 +8,7 @@ If you don't feel like reading and want to just dive in, copy the contents of th
 This script is an attempt to provide a flexible framework for automated environment building. The basic concept is to handle any arbitrary number of properties files with any arbitrary number of shell scripts, with a simple method of loading the properties files and firing the scripts in order.
 
 #### Required Structure, Files, & Variables
-The script requires a directory named "common," a directory named "ran_once," and one of the arbitrary number of .properties files in the common folder must define a variable named target_environment. The .minimal_example folder demonstrates this bare minimum, which basically just sets the target_environment variable. Note that the target environment can be set to "common" to just run the common files. It's also rather easy to add config properties to suppress the running of common files, force reruns, etc. 
+The script requires the build.properties file, and build.properties must define a target environment. The script also requires a directory named "common," a directory named "ran_once." The .minimal_example folder demonstrates this bare minimum, which basically just sets the target_environment variable. Note that the target environment can be set to "common" to just run the common files. It's also rather easy to add config properties to suppress the running of common files, force reruns, etc. 
 
 #### Flexible Naming Conventions
 

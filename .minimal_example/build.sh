@@ -1,11 +1,35 @@
 #!/bin/bash
 
 # Check for our required structure/files
+# The build.properties file will contain our target environment and other
+# required build variables.
+if [ ! -f build.properties ]; then
+  echo "No build.properties file found."
+  exit
+fi
+
+# If build.properties doesn't set $target_environment, notify the user and die.
+if [ -z "$target_environment" ]; then
+  echo "No target_environment set in build.properties file."
+  exit
+fi
+
+# Make sure the target environment directory exists.
+if [ ! -d "$target_environment" ]; then
+  echo "No $target_environment directory found."
+  exit
+fi
+
+# Save the target_environment so we can check to make sure no subsequent files
+# override it.
+env_save=$target_environment
+
 # The common folder will hold default properties files and config scripts.
 if [ ! -d common ]; then
   echo "No common directory found."
   exit
 fi
+
 # The ran_once directory will hold bookmark files to know if a script has
 # run already, to avoid unnecessary reruns.
 if [ ! -d ran_once ]; then
@@ -19,23 +43,6 @@ for i in common/*.properties; do
   . $i
 done
 
-# If none of the common .properties files have set $target_environment, notify
-# the user and die.
-if [ -z "$target_environment" ]; then
-  echo "No target_environment set in common property files."
-  exit
-fi
-
-# If a target_environment is specified, make sure it exists.
-if [ ! -d "$target_environment" ]; then
-  echo "No $target_environment directory found."
-  exit
-fi
-
-# save the target_environment so we can check to make sure no subsequent files
-# override it.
-env_save=$target_environment
-
 # Get any environment properties files from the target_environment folder 
 # and load them,overriding any set in the common file.
 for i in $target_environment/*.properties; do
@@ -46,7 +53,7 @@ done
 # If they overrode the target_environment, that's a problem, since we already
 # loaded the environment, notify and die so they can fix it.
 if [ "$target_environment" != "$env_save" ]; then
-  echo "Target environment cannot be changed in $env_save .properties files."
+  echo "Target environment cannot be changed. Check your properties files."
   exit
 fi
 
@@ -90,7 +97,7 @@ done
 
 # If we're missing required properties, notify the user and die.
 if [ ! ${#missing_properties[@]} -eq 0 ]; then
-  echo "Required configuration properties are missing. Please check the following in the properties file:"
+  echo "Required configuration properties are missing:"
   for i in "${missing_properties[@]}"
   do
     echo "$i"
