@@ -8,6 +8,8 @@ if [ ! -f build.properties ]; then
   exit
 fi
 
+. build.properties
+
 # If build.properties doesn't set $target_environment, notify the user and die.
 if [ -z "$target_environment" ]; then
   echo "No target_environment set in build.properties file."
